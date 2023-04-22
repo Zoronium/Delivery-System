@@ -1,8 +1,10 @@
 import json
+import uvicorn
 
-from fastapi import FastAPI, Request  , HTTPException
+from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from redis_om import get_redis_connection, HashModel
+
 
 import consumers
 
@@ -62,10 +64,9 @@ def build_state(pk: str):
 
 @app.get("/all_deli/")
 def get_all_del():
-    
     pks = Event.all_pks()
     all_events = [Event.get(pk) for pk in pks]
-    events = [event for event in all_events if event.type == "START_DELIVERY" ]
+    events = [event for event in all_events if event.type == "START_DELIVERY"]
 
     return events
     # return HTTPException(404, "Not Found")
@@ -96,3 +97,7 @@ async def dispatch(request: Request):
     new_state = consumers.CONSUMERS[event.type](state, event)
     redis.set(f"delivery:{delivery_id}", json.dumps(new_state))
     return new_state
+
+
+if __name__ == "__main__":
+    uvicorn.run("server.api:app", host="0.0.0.0", port=8000, reload=True)
