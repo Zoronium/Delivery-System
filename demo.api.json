@@ -1,0 +1,114 @@
+[
+  {
+    "v": 1,
+    "name": "delivery system",
+    "folders": [],
+    "requests": [
+      {
+        "v": "1",
+        "endpoint": "http://127.0.0.1:8000/deliveries/create",
+        "name": "post deli",
+        "params": [],
+        "headers": [],
+        "method": "POST",
+        "auth": {
+          "authType": "none",
+          "authActive": true,
+          "addTo": "Headers",
+          "key": "",
+          "value": ""
+        },
+        "preRequestScript": "",
+        "testScript": "",
+        "body": {
+          "contentType": "application/json",
+          "body": "{\n  \"type\": \"CREATE_DELIVERY\",\n  \"data\": {\n    \"budget\":50,\n    \"notes\": \"Pick 2 Pizzas\" \n  }\n}"
+        }
+      },
+      {
+        "v": "1",
+        "endpoint": "http://127.0.0.1:8000/event",
+        "name": "start",
+        "params": [],
+        "headers": [],
+        "method": "POST",
+        "auth": {
+          "authType": "none",
+          "authActive": true,
+          "addTo": "Headers",
+          "key": "",
+          "value": ""
+        },
+        "preRequestScript": "",
+        "testScript": "",
+        "body": {
+          "contentType": "application/json",
+          "body": "{\n  \"type\": \"START_DELIVERY\",\n  \"delivery_id\": \"01GW06WADSPZF1HWRCE2F96EQ5\",\n  \"data\": {\n    \"budget\":50,\n    \"notes\": \"Pick 2 Pizzas\" \n  }\n}"
+        }
+      },
+      {
+        "v": "1",
+        "endpoint": "http://127.0.0.1:8000/event",
+        "name": "pick",
+        "params": [],
+        "headers": [],
+        "method": "POST",
+        "auth": {
+          "authType": "none",
+          "authActive": true,
+          "addTo": "Headers",
+          "key": "",
+          "value": ""
+        },
+        "preRequestScript": "",
+        "testScript": "",
+        "body": {
+          "contentType": "application/json",
+          "body": "{\n  \"type\": \"PICKUP_PRODUCTS\",\n   \"delivery_id\": \"01GW06WADSPZF1HWRCE2F96EQ5\",\n  \"data\": {\n    \"budget\":50,\n    \"sell_price\":100,\n    \"purchase_price\": 10,\n    \"quantity\":1,\n    \"notes\": \"Pick 2 Pizzas\" \n  }\n}"
+        }
+      },
+      {
+        "v": "1",
+        "endpoint": "http://127.0.0.1:8000/deliveries/01GW06WADSPZF1HWRCE2F96EQ5/status",
+        "name": "get deli",
+        "params": [],
+        "headers": [],
+        "method": "GET",
+        "auth": {
+          "authType": "none",
+          "authActive": true,
+          "addTo": "Headers",
+          "key": "",
+          "value": ""
+        },
+        "preRequestScript": "",
+        "testScript": "",
+        "body": {
+          "contentType": "application/json",
+          "body": "{\n  \"type\": \"CREATE+DELIVERY\",\n  \"data\": {\n    \"budget\":50,\n    \"notes\": \"Pick 2 Pizzas\" \n  }\n}"
+        }
+      },
+      {
+        "v": "1",
+        "endpoint": "http://127.0.0.1:8000/event",
+        "name": "delivery",
+        "params": [],
+        "headers": [],
+        "method": "POST",
+        "auth": {
+          "authType": "none",
+          "authActive": true,
+          "addTo": "Headers",
+          "key": "",
+          "value": ""
+        },
+        "preRequestScript": "",
+        "testScript": "",
+        "body": {
+          "contentType": "application/json",
+          "body": "{\n  \"type\": \"DELIVER_PRODUCTS\",\n   \"delivery_id\": \"01GW06WADSPZF1HWRCE2F96EQ5\",\n  \"data\": {\n    \"budget\":50,\n    \"sell_price\":100,\n    \"purchase_price\": 10,\n    \"quantity\":1,\n    \"notes\": \"Pick 2 Pizzas\" \n  }\n}"
+        }
+      }
+    ]
+  }
+]
