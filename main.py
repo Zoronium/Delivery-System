@@ -1,6 +1,6 @@
 import json
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request  , HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from redis_om import get_redis_connection, HashModel
 
@@ -37,13 +37,13 @@ class Event(HashModel):
 
 @app.get("/deliveries/{pk}/status")
 async def get_state(pk: str):
-    state = redis.get(f'delivery:{pk}')
+    state = redis.get(f"delivery:{pk}")
 
     if state is not None:
         return json.loads(state)
 
     state = build_state(pk)
-    redis.set(f'delivery:{pk}', json.dumps(state))
+    redis.set(f"delivery:{pk}", json.dumps(state))
     return state
 
 
@@ -58,6 +58,17 @@ def build_state(pk: str):
         state = consumers.CONSUMERS[event.type](state, event)
 
     return state
+
+
+@app.get("/all_deli/")
+def get_all_del():
+    
+    pks = Event.all_pks()
+    all_events = [Event.get(pk) for pk in pks]
+    events = [event for event in all_events if event.type == "START_DELIVERY" ]
+
+    return events
+    # return HTTPException(404, "Not Found")
 
 
 @app.post("/deliveries/create")
